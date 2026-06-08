@@ -1,0 +1,66 @@
+<app-navbar />
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Mes Crédits</h1>
+    <p class="text-gray-500 mt-1">Suivez l'état de vos demandes de crédit</p>
+  </div>
+
+  <div *ngIf="isLoading" class="flex items-center justify-center py-16">
+    <div class="animate-spin h-8 w-8 border-4 border-primary-600 border-t-transparent rounded-full"></div>
+  </div>
+
+  <div *ngIf="!isLoading && credits.length === 0"
+    class="card p-12 text-center">
+    <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+    </svg>
+    <p class="text-gray-400">Vous n'avez pas encore de crédits.</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="grid gap-4">
+    <div *ngFor="let credit of credits"
+      class="card p-6 hover:shadow-xl transition-shadow duration-300">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+            [class.bg-blue-100]="credit.typeCredit === 'IMMOBILIER'"
+            [class.bg-purple-100]="credit.typeCredit === 'PROFESSIONNEL'"
+            [class.bg-gray-100]="credit.typeCredit === 'PERSONNEL'">
+            <svg class="w-6 h-6"
+              [class.text-blue-600]="credit.typeCredit === 'IMMOBILIER'"
+              [class.text-purple-600]="credit.typeCredit === 'PROFESSIONNEL'"
+              [class.text-gray-600]="credit.typeCredit === 'PERSONNEL'"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">Crédit {{ credit.typeCredit | titlecase }}</p>
+            <p class="text-sm text-gray-500">Demande #{{ credit.id }} · {{ credit.dateDemande }}</p>
+          </div>
+        </div>
+        <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold" [class]="getStatutClass(credit.statut)">
+          {{ getStatutLabel(credit.statut) }}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 mt-5 pt-5 border-t border-gray-100">
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Montant</p>
+          <p class="text-lg font-bold text-gray-900 mt-0.5">{{ credit.montant | number:'1.0-0' }} DH</p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Durée</p>
+          <p class="text-lg font-bold text-gray-900 mt-0.5">{{ credit.dureeRemboursement }} mois</p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide">Taux d'intérêt</p>
+          <p class="text-lg font-bold text-gray-900 mt-0.5">{{ credit.tauxInteret }}%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
