@@ -1,0 +1,16 @@
+package com.makhlouk.anass.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class CreditPersonnelDTO extends CreditDTO {
+    private String motif;
+}
